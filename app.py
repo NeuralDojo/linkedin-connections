@@ -18,11 +18,24 @@ img = Image.open('img/linkedin-statistics.jpeg')
 st.image(img, width=800)
 
 
-#DATA PROCESSING
-df_connections = pd.read_csv('Complete_LinkedInDataExport_04-15-2022/Connections.csv', skiprows=2)
-
-#keep only relevant data
-df_connections = df_connections[['First Name', 'Last Name','Company', 'Position']].dropna()
+#DATA IMPORT & PROCESSING
+df_2d_embeddings = pd.read_csv('data/2d_lk_connections.csv')
+df_3d_embeddings = pd.read_csv('data/3d_lk_connections.csv')
 
 
-#MODEL PREPARATION
+#CLUSTERING
+#clustering with k-means
+NUM_CLUSTERS = 20
+
+from sklearn.cluster import KMeans
+
+clusters = KMeans(n_clusters=NUM_CLUSTERS)
+clusters.fit(df_2d_embeddings[['x','y']])
+
+clusters_3d = KMeans(n_clusters=NUM_CLUSTERS)
+clusters_3d.fit(df_3d_embeddings[['x','y','z']])
+
+df_2d_embeddings['clusters'] = clusters.labels_
+df_2d_embeddings['company'] = df_connections.Company
+df_3d_embeddings['clusters'] = clusters.labels_
+df_3d_embeddings['company'] = df_connections.Company
