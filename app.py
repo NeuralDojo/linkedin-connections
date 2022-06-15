@@ -19,6 +19,7 @@ st.image(img, width=800)
 
 
 #DATA IMPORT & PROCESSING
+df_connections = pd.read_csv('data/lkd_cnnections.csv', skiprows=2)
 df_2d_embeddings = pd.read_csv('data/2d_lk_connections.csv')
 df_3d_embeddings = pd.read_csv('data/3d_lk_connections.csv')
 
